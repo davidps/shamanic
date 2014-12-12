@@ -1,0 +1,70 @@
+
+<html ng-app>
+<head>
+<title>Shamanic User SignUp</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.min.js"></script>
+</head>
+
+<body ng-cloak>
+<form name="form" action="/signup" method="post">
+  <div>
+    <label>Username:</label>
+    <input ng-model="username" type="text" name="username" placeholder="Username" autofocus required/><br/>
+  </div>
+  <div>
+	<label>Email:</label>
+	<input ng-model="email" type="email" name="email" placeholder="Email" required/>
+  </div>
+  <div>
+    <label>Password:</label>
+    <input type="password" name="password" placeholder="Password" ng-model="value1" equals="{{value2}}" required/>
+  </div>
+  <div>
+    <label>Confirm Password:</label>
+	<input type="password" name="confirm_password" placeholder="Confirm Password" ng-model="value2" equals="{{value1}}" required/>
+	<div ng-show="form.confirm_password.$error.equals">Passwords do not match.</div>
+  </div>
+  <div>
+	<input type="checkbox" name="agreement" required>I agree!
+  </div>
+  <div><input type="submit" value="Sign Up" ng-model="submit" ng-disabled="form.username.$pristine || form.email.$pristine || form.email.$error || form.confirm_password.$error.equals"/></div>
+  
+</form>
+You're signing up as {{username}}, I hope you know.
+<br/>
+We'll send you confirmation / administrative emails to {{email}}, ok?
+<br/>
+<footer>
+	<% include ./views/partials/footer.ejs %>
+</footer>
+<script type="text/ejs" id="equals">
+<%
+var app = angular.module("shamanicApp", [])
+
+.directive("equals", function() {
+	return {
+		restrict: 'A',
+		require: "?ngModel",
+		link: function(scope, elem, attrs, ngModel) {
+			if (!ngModel) return;
+			scope.$watch(attrs.ngModel, function() {
+				validate();
+				});
+				
+			attrs.$observe('equals', function(val) {
+				validate();
+			});
+		
+			var validate = function() {
+				var val1 = ngModel.$viewValue;
+				var val2 = attrs.equals;
+				
+				if (val1 || val2) { ngModel.$setValidity('equals', val1 === val2); }
+			};
+		}
+	}
+});
+%>
+</script>
+ </body>
+ </html>

@@ -1,0 +1,14 @@
+{
+    "name": "auth"
+  , "version": "0.0.1"
+  , "description": "A user registration module for Shamanic"
+  , "main": "app.js"
+  , "dependencies": {
+      "express": "4.9.4"
+    , "jade": "0.26.1"
+	, "mongoose": "2.6.5"
+	, "connect-mongo": "0.4.1"
+	, "socket.io": "1.1.0"
+	, "ejs": "1.0.0"
+  }
+}
