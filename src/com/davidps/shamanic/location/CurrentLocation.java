@@ -2,7 +2,7 @@ package com.davidps.shamanic.location;
 
 import java.util.List;
 import java.util.Locale;
-
+import org.json.JSONException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -23,13 +23,17 @@ public class CurrentLocation {
 	/** user's area name and region name */
 	public String areaNameValue;
 	public String regionValue;
+	
+	/** timestamp for current location */
+	public String timestamp;
 
 	/**
 	 * get the latitude and longitude location for the user
 	 * 
 	 * @param context
+	 * @throws JSONException 
 	 */
-	public void getLocation(Context context) {
+	public void getLocation(Context context) throws JSONException {
 
 		/** get user's latitude and longitude */
 		LatLong latLong = new LatLong();
@@ -44,6 +48,7 @@ public class CurrentLocation {
 		if (longitude == null && latitude == null) {
 			longitude = "40.714623";
 			latitude = "-74.006605";
+			
 		}
 	}
 

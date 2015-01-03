@@ -10,6 +10,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 /**
@@ -24,6 +25,7 @@ public class LatLong {
 	private List<Address> user = null;
 	public double lat;
 	public double lng;
+	public String timestamp;
 
 	/**
 	 * get the latitude and longitude of the user's device
@@ -46,6 +48,7 @@ public class LatLong {
 				user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 				lat = (double) user.get(0).getLatitude();
 				lng = (double) user.get(0).getLongitude();
+				timestamp = (String) (DateFormat.format("MM-dd-yyyy hh:mm:ss", new java.util.Date()));
 
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 				SharedPreferences.Editor prefsEditor = preferences.edit();
