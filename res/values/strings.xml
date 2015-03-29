@@ -3,6 +3,12 @@
 
     <string name="app_name">Shamanic</string>
     <string name="app_description">Shamanic is a game where your travels become game data. Where you travel to and spend time at is tagged as a possible location from which you can draw power. Completing circuits create a perimeter of your possible influence. Meanwhile, other players are traveling through your spaces, tagging their own powers and defining their own perimeters. The conflict, or collaboration, of the game arises in the intersections of these sources of power and mapped territories. 
-		The game is not played as you travel through the physical world; rather, your phone acts as a passive collector of data, allowing you to experience where you are and what you\'re doing independent of technology. When you return to "home base" your game experience re-establishes what you have done and imbues it with more meaning.</string>
-
+		The game is not played as you travel through the physical world; rather, your phone acts as a passive collector of data, allowing you to experience where you are and what you\'re doing independent of technology. When you return to basecamp, your game experience re-establishes what you have done and imbues it with more meaning.</string>
+	<string name="btn_get_location">GET LOCATION</string>
+	<string name="btn_start_location_updates">START LOCATION UPDATES</string>
+    <string name="btn_stop_location_updates">STOP LOCATION UPDATES</string>
+    <string name="btn_list_locations">LIST ALL LOCATIONS</string>
+    <string name="username_msg">username</string>
+    <string name="password_msg">password</string>
+    <string name="button_send">log in</string>
 </resources>
