@@ -1,14 +1,17 @@
 package io.shamanic.android.main;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
-import io.shamanic.android.db.src_gen.DaoMaster;
-import io.shamanic.android.db.src_gen.DaoMaster.DevOpenHelper;
-import io.shamanic.android.db.src_gen.DaoSession;
-import io.shamanic.android.db.src_gen.location;
-import io.shamanic.android.db.src_gen.locationDao;
-import io.shamanic.android.db.src_gen.locationDao.Properties;
+
 import io.shamanic.android.location.CurrentLocation;
+import io.shamanic.android.db.src_gen.DaoMaster;
+import io.shamanic.android.db.src_gen.DaoSession;
+import io.shamanic.android.db.src_gen.userDao;
+import io.shamanic.android.db.src_gen.userlocation;
+import io.shamanic.android.db.src_gen.userlocationDao;
+import io.shamanic.android.db.src_gen.DaoMaster.DevOpenHelper;
+import io.shamanic.android.db.src_gen.userlocationDao.Properties;
 
 import io.shamanic.android.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -69,8 +72,11 @@ public class Shamanic extends Activity implements ConnectionCallbacks, OnConnect
 
 	DaoMaster daoMaster;
 	DaoSession daoSession;
-	// UserDao userDao;
-	locationDao sLocationDao;
+	userDao userDao;
+	//locationDaoold sLocationDao;
+	userlocationDao userLocationDao;
+	//syslocationDao sysLocationDao;
+	//mlocationDao mLocationDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +84,12 @@ public class Shamanic extends Activity implements ConnectionCallbacks, OnConnect
 		setContentView(R.layout.activity_shamanic);
 
 		try {
-			DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "shamanic-db", null);
+			io.shamanic.android.db.src_gen.DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "shamanic-db", null);
 			db = helper.getWritableDatabase();
 			daoMaster = new DaoMaster(db);
 			daoSession = daoMaster.newSession();
 			// userDao = daoSession.getUserDao();
-			sLocationDao = daoSession.getLocationDao();
+			userLocationDao = daoSession.getUserlocationDao();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -169,8 +175,7 @@ public class Shamanic extends Activity implements ConnectionCallbacks, OnConnect
 
 	protected void printAllLocations() {
 
-		List<location> locs = sLocationDao.queryBuilder().where(Properties.UserId.eq(userId)).orderAsc(Properties.Id)
-				.list();
+		List<userlocation> locs = userLocationDao.queryBuilder().where(Properties.UserId.eq(userId)).orderAsc(Properties.Id).list();
 
 		//ListIterator<location> lit = locs.listIterator();
 			
@@ -184,20 +189,33 @@ public class Shamanic extends Activity implements ConnectionCallbacks, OnConnect
 			Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
 		}
 	}
+	
+//	protected void printAllSysLocations() {
+//		
+//		List<syslocation> locs2 = sysLocationDao.queryBuilder().where(Properties.UserId.eq(userId)).orderAsc(Properties.Id).list();
+//		
+//		for (int i = 0; i < locs2.size(); i++) {
+//			String id = locs2.get(i).getId().toString();
+//			String lat = locs2.get(i).getLatitude().toString();
+//			String lng = locs2.get(i).getLongitude().toString();
+//		}
+//	}
 
 	private void addLocation() {
 		mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
+		
 		if (mLastLocation != null) {
-			location loc = new location(null, mLastLocation.getLatitude(), mLastLocation.getLongitude(), userId);
+			String locationString = mLastLocation.toString();
+			userlocation loc = new userlocation(null, mLastLocation.getLatitude(), mLastLocation.getLongitude(), locationString, new Date(), userId);
 			// sLocation loc2 = new sLocation(null, 23.3, 23.4, userId);
-			sLocationDao.insert(loc);
+			userLocationDao.insert(loc);
 			Log.d(TAG, "Inserted location from GoogleAPI, ID: " + loc.getId());
 		} else {
 			// startLocationUpdates();
-			location loc = new location(null, 12.3456789, 98.7654321, userId);
-			sLocationDao.insert(loc);
-			Log.d(TAG, "Inserted fake location.");
+			String locationString = "fake location";
+			userlocation loc = new userlocation(null, 12.3456789, 98.7654321, locationString, new Date(), userId);
+			userLocationDao.insert(loc);
+			Log.d(TAG, "Inserted fake location: Somewhere in Myanmar.");
 		}
 	}
 
