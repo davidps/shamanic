@@ -1,2 +1,2 @@
-shamanic
-========
+Shamanic Android WebApp
+========================

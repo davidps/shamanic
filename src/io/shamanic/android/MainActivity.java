@@ -12,6 +12,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+/**
+ * Android Application WebApp
+ * 
+ * @author khinds
+ */
 public class MainActivity extends Activity {
 
 	/** setup the webview and the webapp host it will point to */
@@ -21,7 +26,6 @@ public class MainActivity extends Activity {
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
